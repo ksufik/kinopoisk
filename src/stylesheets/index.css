@@ -1,3 +1,17 @@
 body {
-  background: #fdfdfd; 
+  background: #fdfdfd;
 }
+
+.card-img__height {
+  max-height: 180px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.invalid-feedback {
+  display: block;
+}
+
+.input_invalid {
+  border-color: #dc3545;
+}/*# sourceMappingURL=index.css.map */

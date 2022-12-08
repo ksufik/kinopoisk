@@ -1,41 +1,28 @@
-import React, { Component } from "react";
-import MovieItem from "./MovieItem";
-import { API_URL, API_KEY_3 } from "../../api/api";
+import React from 'react';
+import MovieItem from './MovieItem';
+import PropTypes from 'prop-types';
+// import MoviesHOC from './MovieTeacher';
+import MoviesHOC from './MoviesHOC';
 
-export default class MovieList extends Component {
-  constructor() {
-    super();
+const MoviesList = ({ movies }) => (
+  <div className="row">
+    {console.log('MoviesList render')}
+    {movies.map((movie) => {
+      return (
+        <div key={movie.id} className="col-6 mb-4">
+          <MovieItem item={movie} />
+        </div>
+      );
+    })}
+  </div>
+);
 
-    this.state = {
-      movies: []
-    };
-  }
+MoviesList.defaultProps = {
+  movies: [],
+};
 
-  componentDidMount() {
-    const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU`;
-    fetch(link)
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        this.setState({
-          movies: data.results
-        });
-      });
-  }
+MoviesList.propTypes = {
+  movies: PropTypes.array.isRequired,
+};
 
-  render() {
-    const { movies } = this.state;
-    return (
-      <div className="row">
-        {movies.map(movie => {
-          return (
-            <div key={movie.id} className="col-6 mb-4">
-              <MovieItem item={movie} />
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
-}
+export default MoviesHOC(MoviesList);

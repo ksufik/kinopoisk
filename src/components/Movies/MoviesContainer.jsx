@@ -31,12 +31,14 @@ export default class MoviesContainer extends PureComponent {
       page: page,
       primary_release_year: primary_release_year,
     };
+		
     if (with_genres.length > 0) {
       queryParams.with_genres = with_genres.join(',');
     }
     const link = `${API_URL}/discover/movie?${queryString.stringify(
       queryParams
     )}`;
+
     fetch(link)
       .then((response) => response.json())
       .then((data) => {

@@ -1,10 +1,10 @@
 import React, { createContext } from 'react';
-import { API_KEY_3, API_URL, resetFilters } from '../constants';
+import { resetFilters } from '../constants';
 import Filters from './Filters/Filters';
 import Header from './Header/Header';
 import Cookies from 'universal-cookie';
-import { fetchApi } from './fetchApi';
 import MoviesList from './Movies/MoviesList';
+import CallApi from './api';
 
 const cookies = new Cookies();
 
@@ -21,6 +21,7 @@ const initialState = {
   page: 1,
   total_pages: 0,
   cookies_name: 'movieApp_session',
+  getFavorites: false,
 };
 
 export default class App extends React.Component {
@@ -78,29 +79,48 @@ export default class App extends React.Component {
     this.setState({
       session_id,
     });
-    console.log('session_id:', session_id);
   };
 
   updateUser = (user) => {
     this.setState({
       user,
     });
-    console.log('user:', user);
+  };
+
+  onLogOut = () => {
+    cookies.remove(this.state.cookies_name);
+    this.setState({
+      session_id: null,
+      user: null,
+    });
+  };
+
+  onGetFavorites = (value) => {
+    this.setState({
+      getFavorites: value,
+    });
   };
 
   componentDidMount() {
     const session = cookies.get(this.state.cookies_name);
     if (session) {
-      fetchApi(
-        `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session}`
-      ).then((user) => {
-        this.updateUser(user);
-      });
+      CallApi.get('account', { params: { session_id: session } }).then(
+        (user) => {
+          this.updateUser(user);
+          this.updateSessionId(session);
+        }
+      );
+      // fetchApi(
+      //   `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session}`
+      // ).then((user) => {
+      //   this.updateUser(user);
+      // });
     }
   }
 
   render() {
-    const { filters, page, total_pages, user, session_id } = this.state;
+    const { filters, page, total_pages, user, session_id, getFavorites } =
+      this.state;
     return (
       <AppContext.Provider
         value={{
@@ -108,11 +128,13 @@ export default class App extends React.Component {
           session_id,
           updateUser: this.updateUser,
           updateSessionId: this.updateSessionId,
-          onLogOut: 'needs to be done',
+          onLogOut: this.onLogOut,
+          onGetFavorites: this.onGetFavorites,
+          getFavorites,
         }}
       >
         <React.Fragment>
-          <Header user={user} />
+          <Header user={user} onGetFavorites={this.onGetFavorites}/>
           <div className="container text-info">
             <div className="row mt-4">
               <div className="col-4">

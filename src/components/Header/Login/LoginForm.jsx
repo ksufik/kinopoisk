@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { API_KEY_3, API_URL } from '../../../constants';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Input from '../../UI/Input';
 import AppContextHOC from '../../HOC/AppContextHOC';
-import { fetchApi } from '../../fetchApi';
+import CallApi from '../../api';
 
 class LoginForm extends Component {
   static propTypes = {
@@ -95,71 +94,113 @@ class LoginForm extends Component {
     //заглушка от множественных кликов: пока идет запрос кнопка не работает
     this.setState((prevState) => ({ ...prevState, submitting: true }));
 
-    const getFetchOptions = (bodyParams) => {
-      this.props.options.body = JSON.stringify(bodyParams);
-      return this.props.options;
-    };
-    // можно сделать все через Promise => fetch => then (пример в fetchApi.js), но это будет трудно читать, поэтому мы делаем try catch (читабельность)
-    try {
-      // получаем токен 1
-      const getRequestToken = await fetchApi(
-        `${API_URL}/authentication/token/new?api_key=${API_KEY_3}`
-      );
-
-      // проверяем права пользователя: отправляем логин, пароль и токен 1 и получаем опять токен 1 //? (так устроен api)
-      const validateWithLogin = await fetchApi(
-        `${API_URL}/authentication/token/validate_with_login?api_key=${API_KEY_3}`,
-        // getFetchOptions({
-        //   username: this.state.username,
-        //   password: this.state.password,
-        //   request_token: getRequestToken.request_token,
-        // })
-        {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify({
+    CallApi.get('authentication/token/new')
+      .then((token) => {
+        return CallApi.post('authentication/token/validate_with_login', {
+          body: {
             username: this.state.username,
             password: this.state.password,
-            request_token: getRequestToken.request_token,
+            request_token: token.request_token,
+          },
+        });
+      })
+      .then((token) => {
+        return CallApi.post('authentication/session/new', {
+          body: {
+            request_token: token.request_token,
+          },
+        });
+      })
+      .then((session) => {
+        this.props.updateSessionId(session.session_id);
+        // return fetchApi(
+        //   `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session.session_id}`
+        // );
+        return CallApi.get(`account`, {
+          params: { session_id: session.session_id },
+        });
+      })
+      .then((user) => {
+        //  если вызвать обновление пользователя коллбэком setState, то не возникнет ошибки, когда компонент уже размонтировался, а setState только вызывается
+        this.setState(
+          (prevState) => ({
+            ...prevState,
+            submitting: true,
           }),
-        }
-      );
-
-      // получаем session id
-      const getSessionId = await fetchApi(
-        `${API_URL}/authentication/session/new?api_key=${API_KEY_3}`,
-        getFetchOptions({
-          // из validateWithLogin, чтобы соблюсти цепочку
-          request_token: validateWithLogin.request_token,
-        })
-      );
-
-      this.props.updateSessionId(getSessionId.session_id);
-
-      const getUser = await fetchApi(
-        `${API_URL}/account?api_key=${API_KEY_3}&session_id=${getSessionId.session_id}`
-      );
-
-      //  если вызвать обновление пользователя коллбэком setState, то не возникнет ошибки, когда компонент уже размонтировался, а setState только вызывается
-      this.setState(
-        (prevState) => ({
+          () => {
+            this.props.updateUser(user);
+          }
+        );
+      })
+      .catch((error) => {
+        this.setState((prevState) => ({
           ...prevState,
+          errors: { base: error.status_message },
           submitting: true,
-        }),
-        () => {
-          this.props.updateUser(getUser);
-        }
-      );
-    } catch (error) {
-      this.setState((prevState) => ({
-        ...prevState,
-        errors: { base: error.status_message },
-        submitting: true,
-      }));
-    }
+        }));
+      });
+
+    //! Другой вариант работы с запросами к API (axios)
+    // const getFetchOptions = (bodyParams) => {
+    //   this.props.options.body = JSON.stringify(bodyParams);
+    //   return this.props.options;
+    // };
+    // можно сделать все через Promise => fetch => then (пример в fetchApi.js), но это будет трудно читать, поэтому мы делаем try catch (читабельность)
+    // try {
+    //   // получаем токен 1
+    //   const getRequestToken = await fetchApi(
+    //     `${API_URL}/authentication/token/new?api_key=${API_KEY_3}`
+    //   );
+    //   // проверяем права пользователя: отправляем логин, пароль и токен 1 и получаем опять токен 1 //? (так устроен api)
+    //   const validateWithLogin = await fetchApi(
+    //     `${API_URL}/authentication/token/validate_with_login?api_key=${API_KEY_3}`,
+    //     // getFetchOptions({
+    //     //   username: this.state.username,
+    //     //   password: this.state.password,
+    //     //   request_token: getRequestToken.request_token,
+    //     // })
+    //     {
+    //       method: 'POST',
+    //       mode: 'cors',
+    //       headers: {
+    //         'Content-type': 'application/json',
+    //       },
+    //       body: JSON.stringify({
+    //         username: this.state.username,
+    //         password: this.state.password,
+    //         request_token: getRequestToken.request_token,
+    //       }),
+    //     }
+    //   );
+    //   // получаем session id
+    //   const getSessionId = await fetchApi(
+    //     `${API_URL}/authentication/session/new?api_key=${API_KEY_3}`,
+    //     getFetchOptions({
+    //       // из validateWithLogin, чтобы соблюсти цепочку
+    //       request_token: validateWithLogin.request_token,
+    //     })
+    //   );
+    //   this.props.updateSessionId(getSessionId.session_id);
+    //   const getUser = await fetchApi(
+    //     `${API_URL}/account?api_key=${API_KEY_3}&session_id=${getSessionId.session_id}`
+    //   );
+    //   //  если вызвать обновление пользователя коллбэком setState, то не возникнет ошибки, когда компонент уже размонтировался, а setState только вызывается
+    //   this.setState(
+    //     (prevState) => ({
+    //       ...prevState,
+    //       submitting: true,
+    //     }),
+    //     () => {
+    //       this.props.updateUser(getUser);
+    //     }
+    //   );
+    // } catch (error) {
+    //   this.setState((prevState) => ({
+    //     ...prevState,
+    //     errors: { base: error.status_message },
+    //     submitting: true,
+    //   }));
+    // }
   };
 
   getClassForInput = (key) =>

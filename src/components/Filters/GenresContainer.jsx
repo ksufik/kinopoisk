@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { API_KEY_3, API_URL, LANGUAGE_RU } from '../../constants';
-import queryString from 'query-string';
+import { LANGUAGE_RU } from '../../constants';
 import Genres from './Genres';
+import CallApi from '../api';
 
 // из-за PureComponent (=shouldComponentUpdate) лишние рендеры компонента при взаимодействии с другими частями фильтра не происходят
 export default class GenresContainer extends React.PureComponent {
@@ -19,23 +19,14 @@ export default class GenresContainer extends React.PureComponent {
   }
 
   getGenres = () => {
-    const queryParams = {
-      api_key: API_KEY_3,
-      language: LANGUAGE_RU,
-    };
-
     //! везде проследить отработку ошибки статус код 404
-    const link = `${API_URL}/genre/movie/list?${queryString.stringify(
-      queryParams
-    )}`;
-
-    fetch(link)
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({
-          genres: data.genres,
-        });
+    CallApi.get('/genre/movie/list', {
+      params: { language: LANGUAGE_RU },
+    }).then((data) => {
+      this.setState({
+        genres: data.genres,
       });
+    });
   };
 
   componentDidMount() {

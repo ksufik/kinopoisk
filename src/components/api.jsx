@@ -1,4 +1,5 @@
 import queryString from 'query-string';
+import { LANGUAGE_RU } from '../helpers/constants';
 
 export const API_URL = 'https://api.themoviedb.org/3';
 
@@ -34,6 +35,7 @@ export default class CallApi {
     const { params = {} } = options;
     const queryParams = {
       api_key: API_KEY_3,
+      language: LANGUAGE_RU,
       ...params,
     };
 
@@ -45,6 +47,7 @@ export default class CallApi {
 
     const queryParams = {
       api_key: API_KEY_3,
+      language: LANGUAGE_RU,
       ...params,
     };
 

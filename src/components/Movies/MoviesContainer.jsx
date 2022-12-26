@@ -26,12 +26,11 @@ export default class MoviesContainer extends PureComponent {
     // со всеми параметрами получается огромная строка, поэтому используем библиотеку query-string, которая преобразует объект в строку
     const queryParams = {
       api_key: API_KEY_3,
-      language: LANGUAGE_RU,
       sort_by: sort_by,
       page: page,
       primary_release_year: primary_release_year,
     };
-		
+
     if (with_genres.length > 0) {
       queryParams.with_genres = with_genres.join(',');
     }

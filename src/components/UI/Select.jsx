@@ -11,7 +11,7 @@ const Select = ({
   className,
 }) => (
   <div className="form-group">
-    {console.log('Select render')}
+    {/* {console.log('Select render')} */}
     <label htmlFor={id}>{labelText}</label>
     <select
       id={id}

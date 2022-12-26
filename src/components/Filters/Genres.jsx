@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const Genres = ({ resetGenres, genres, onChange, with_genres }) => (
   <React.Fragment>
-    {console.log('Genres render')}
+    {/* {console.log('Genres render')} */}
     <button
       type="button"
       className="btn btn-outline-info mb-2"

@@ -28,7 +28,9 @@ class User extends Component {
       body: {
         session_id: this.props.session_id,
       },
-    }).then(this.props.onLogOut());
+    }).then(() => {
+      this.props.onLogOut();
+    });
   };
 
   handleGetFavoritesMovies = () => {

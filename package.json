@@ -9,6 +9,8 @@
     "query-string": "^7.1.1",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
+    "react-router": "^6.4.5",
+    "react-router-dom": "^6.4.5",
     "react-scripts": "1.1.5",
     "reactstrap": "^9.1.5",
     "universal-cookie": "^4.0.4"

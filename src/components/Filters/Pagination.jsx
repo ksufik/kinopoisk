@@ -26,7 +26,7 @@ export default class Pagination extends React.PureComponent {
 
   render() {
     const { page, total_pages } = this.props;
-    console.log('Pagination render');
+   // console.log('Pagination render');
     return (
       <React.Fragment>
         <div

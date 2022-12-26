@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LANGUAGE_RU } from '../../constants';
 import Genres from './Genres';
 import CallApi from '../api';
 
@@ -20,9 +19,7 @@ export default class GenresContainer extends React.PureComponent {
 
   getGenres = () => {
     //! везде проследить отработку ошибки статус код 404
-    CallApi.get('/genre/movie/list', {
-      params: { language: LANGUAGE_RU },
-    }).then((data) => {
+    CallApi.get('/genre/movie/list').then((data) => {
       this.setState({
         genres: data.genres,
       });
@@ -44,7 +41,6 @@ export default class GenresContainer extends React.PureComponent {
             ),
       },
     });
-    console.log('event:', event);
   };
 
   resetGenres = () => {
@@ -59,7 +55,7 @@ export default class GenresContainer extends React.PureComponent {
   render() {
     const { genres } = this.state;
     const { with_genres } = this.props;
-    console.log('GenresContainer render');
+    //  console.log('GenresContainer render');
 
     return (
       <Genres

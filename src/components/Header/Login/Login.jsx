@@ -21,7 +21,7 @@ export default class LoginForm extends Component {
   };
 
   render() {
-    console.log('LoginForm render');
+   // console.log('LoginForm render');
 
     const { username, password, repeat_password, errors, submitting } =
       this.state;

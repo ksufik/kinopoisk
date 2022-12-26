@@ -23,19 +23,31 @@ export default class Filters extends React.PureComponent {
       total_pages,
       onChangeFilters,
       onChangePage,
+      getFavoritesIsClicked,
     } = this.props;
 
-    console.log('Filters render');
+    //  console.log('Filters render');
 
     return (
       <form className="mb-3">
-        <SortBy sort_by={sort_by} onChangeFilters={onChangeFilters} />
-        <PrimaryReleaseYear
-          primary_release_year={primary_release_year}
+        <SortBy
+          sort_by={sort_by}
           onChangeFilters={onChangeFilters}
+          getFavoritesIsClicked={getFavoritesIsClicked}
         />
-        <GenresContainer with_genres={with_genres} onChangeFilters={onChangeFilters} />
-        <Reset onChangeFilters={onChangeFilters} />
+        {!this.props.getFavoritesIsClicked && (
+          <React.Fragment>
+            <PrimaryReleaseYear
+              primary_release_year={primary_release_year}
+              onChangeFilters={onChangeFilters}
+            />
+            <GenresContainer
+              with_genres={with_genres}
+              onChangeFilters={onChangeFilters}
+            />
+            <Reset onChangeFilters={onChangeFilters} />
+          </React.Fragment>
+        )}
         <Pagination
           page={page}
           total_pages={total_pages}

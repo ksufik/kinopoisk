@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Select from '../UI/Select';
 
+//! поиграть с выборкой годов
 function years(begin, finish) {
   const array = [];
   for (let i = begin; i < finish + 1; i++) {
@@ -24,7 +25,7 @@ export default class PrimaryReleaseYear extends React.PureComponent {
 
   render() {
     const { primary_release_year, onChangeFilters, options } = this.props;
-    console.log('PrimaryReleaseYear render');
+    // console.log('PrimaryReleaseYear render');
     return (
       <Select
         id="primary_release_year"

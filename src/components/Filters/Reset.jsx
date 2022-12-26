@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { resetFilters } from '../../constants';
+import { resetFilters } from '../../helpers/constants';
 
 export default class Reset extends PureComponent {
   static propTypes = {
@@ -16,7 +16,7 @@ export default class Reset extends PureComponent {
     });
   };
   render() {
-    console.log('Reset render');
+    //  console.log('Reset render');
     return (
       <button
         type="button"

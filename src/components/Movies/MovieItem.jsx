@@ -53,9 +53,9 @@ class MovieItem extends React.Component {
               <div className="card-text">Рейтинг: {item.vote_average}</div>
               <span
                 className="material-icons"
-                style={{ cursor: 'pointer', zIndex: 8000 }}
+                style={{ cursor: 'pointer', zIndex: 2 }}
                 onClick={this.favoriteFunc}
-								title='Избранное'
+                title="Избранное"
               >
                 {favorited ? 'star' : 'star_border'}
               </span>

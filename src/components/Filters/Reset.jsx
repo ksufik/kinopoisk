@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { resetFilters } from '../../helpers/constants';
+import { RESET_FILTERS } from '../../helpers/constants';
 
 export default class Reset extends PureComponent {
   static propTypes = {
@@ -10,7 +10,7 @@ export default class Reset extends PureComponent {
   resetFilters = () => {
     this.props.onChangeFilters({
       target: {
-        name: resetFilters,
+        name: RESET_FILTERS,
         value: null,
       },
     });

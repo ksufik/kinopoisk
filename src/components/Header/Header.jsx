@@ -5,7 +5,7 @@ import User from './User/User';
 
 export default class Header extends PureComponent {
   handleGetFavorites = () => {
-  this.props.onGetFavorites(false);
+    this.props.onGetFavorites(false);
   };
   render() {
     // console.log('Header render');
@@ -28,6 +28,7 @@ export default class Header extends PureComponent {
             </li>
           </ul>
           {headerUser ? <User /> : <LoginContainer />}
+          {/* <LoginContainer /> */}
         </div>
       </nav>
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { resetFilters } from '../../helpers/constants';
+import { RESET_FILTERS } from '../../helpers/constants';
 import Filters from '../Filters/Filters';
 import MoviesList from '../Movies/MoviesList';
 
@@ -33,7 +33,7 @@ export default class MoviesPage extends React.Component {
 
     const value = event.target.value;
     const name = event.target.name;
-    if (name === resetFilters) {
+    if (name === RESET_FILTERS) {
       this.setState(initialState);
     } else {
       //если мы видим this.state то лучше сделать функционально(???), т.е. через prev

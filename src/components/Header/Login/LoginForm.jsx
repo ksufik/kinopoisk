@@ -7,8 +7,7 @@ import CallApi from '../../api';
 
 class LoginForm extends Component {
   static propTypes = {
-    updateUser: PropTypes.func.isRequired,
-    updateSessionId: PropTypes.func.isRequired,
+    updateAuth: PropTypes.func.isRequired,
   };
 
   state = {
@@ -65,7 +64,7 @@ class LoginForm extends Component {
     }
 
     if (Object.keys(errors).length > 0) {
-      //! ? зачем здесь (
+      //////////////! ? зачем здесь (
       this.setState((prevState) => ({
         errors: {
           ...prevState.errors,
@@ -79,7 +78,6 @@ class LoginForm extends Component {
 
   onBlur = (event) => {
     //? для будущей валидации отдельно каждого поля
-    // console.log('event.target.name:', event.target.name);
     this.validateFields();
   };
 
@@ -93,6 +91,7 @@ class LoginForm extends Component {
   onSubmit = async () => {
     //заглушка от множественных кликов: пока идет запрос кнопка не работает
     this.setState((prevState) => ({ ...prevState, submitting: true }));
+    let session_id = null;
 
     CallApi.get('authentication/token/new')
       .then((token) => {
@@ -112,10 +111,8 @@ class LoginForm extends Component {
         });
       })
       .then((session) => {
-        this.props.updateSessionId(session.session_id);
-        // return fetchApi(
-        //   `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session.session_id}`
-        // );
+        session_id = session.session_id;
+
         return CallApi.get(`account`, {
           params: { session_id: session.session_id },
         });
@@ -128,7 +125,7 @@ class LoginForm extends Component {
             submitting: true,
           }),
           () => {
-            this.props.updateUser(user);
+            this.props.updateAuth({ user, session_id });
           }
         );
       })
@@ -209,7 +206,7 @@ class LoginForm extends Component {
     });
 
   render() {
-  //  console.log('LoginForm render');
+    //  console.log('LoginForm render');
 
     const { username, password, repeat_password, errors, submitting } =
       this.state;

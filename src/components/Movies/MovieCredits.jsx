@@ -18,7 +18,6 @@ export default class MovieCredits extends PureComponent {
 
   componentDidMount() {
     CallApi.get(`movie/${this.props.movie_id}/credits`).then((data) => {
-      console.log(data);
       this.setState({
         crew: data.crew,
         cast: data.cast,

@@ -1,14 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import Genres from './Genres';
 import CallApi from '../api';
 
 // из-за PureComponent (=shouldComponentUpdate) лишние рендеры компонента при взаимодействии с другими частями фильтра не происходят
 export default class GenresContainer extends React.PureComponent {
-  static propTypes = {
-    onChangeFilters: PropTypes.func.isRequired,
-    with_genres: PropTypes.array.isRequired,
-  };
+  // static propTypes = {
+  //   onChangeFilters: PropTypes.func.isRequired,
+  //   with_genres: PropTypes.array.isRequired,
+  // };
 
   constructor() {
     super();

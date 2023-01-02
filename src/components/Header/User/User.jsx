@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import AppContextHOC from '../../HOC/AppContextHOC';
+import { withAuth } from '../../HOC/withAuth';
 import {
   Dropdown,
   DropdownItem,
@@ -12,7 +12,7 @@ import CallApi from '../../api';
 //! регистрация/авторизация
 class User extends Component {
   static propTypes = {
-    user: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired,
   };
 
   state = { dropdownOpen: false };
@@ -24,12 +24,13 @@ class User extends Component {
   };
 
   handleLogOut = () => {
+    const { auth, authActions } = this.props;
     CallApi.delete('authentication/session', {
       body: {
-        session_id: this.props.session_id,
+        session_id: auth.session_id,
       },
     }).then(() => {
-      this.props.onLogOut();
+      authActions.logOut();
     });
   };
 
@@ -38,7 +39,8 @@ class User extends Component {
   };
 
   render() {
-    const { user } = this.props;
+    const { auth } = this.props;
+    const user = auth.user;
     return (
       <div className="user-wrapper">
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
@@ -73,7 +75,7 @@ class User extends Component {
 }
 
 //переделали на НОС с контекстом
-export default AppContextHOC(User);
+export default withAuth(User);
 
 // пример с контекстом
 // //получается, что UserContext - это глупый (dummy, презентационный) компонент, в котором находится компонент User. И туда же нам надо передать все пропсы, т.е. пробросить на 1 уровень глубже

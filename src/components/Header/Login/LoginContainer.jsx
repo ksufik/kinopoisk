@@ -15,15 +15,14 @@ export default class Login extends Component {
   //   this.setState((prevState) => ({
   //     showModal: !prevState.showModal,
   //   }));
-  toggleModal = (test) => {
+  toggleModal = () => {
     this.setState((prevState) => ({
       showModal: !prevState.showModal,
-      test,
     }));
   };
 
   render() {
- //   console.log('LoginContainer render');
+    //   console.log('LoginContainer render');
 
     const { showModal } = this.state;
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Input from '../../UI/Input';
-import AppContextHOC from '../../HOC/AppContextHOC';
+import { withAuth } from '../../HOC/withAuth';
 import CallApi from '../../api';
 
 class LoginForm extends Component {
@@ -13,7 +13,6 @@ class LoginForm extends Component {
   state = {
     username: 'xenia_kuz',
     password: '7dAgAe@wZA9EdkM',
-    repeat_password: '7dAgAe@wZA9EdkM',
     errors: {},
     submitting: false,
   };
@@ -59,10 +58,6 @@ class LoginForm extends Component {
         'Пароль должен содержать от 6 до 20 символов, в нем можно использовать цифры, символы и буквы латинского алфавита. При этом обязательно в пароле должна быть хотя бы одна цифра, одна буква в нижнем регистре и одна буква в верхнем регистре.';
     }
 
-    if (this.state.password !== this.state.repeat_password) {
-      errors.repeat_password = 'Пароли не совпадают';
-    }
-
     if (Object.keys(errors).length > 0) {
       //////////////! ? зачем здесь (
       this.setState((prevState) => ({
@@ -77,7 +72,6 @@ class LoginForm extends Component {
   };
 
   onBlur = (event) => {
-    //? для будущей валидации отдельно каждого поля
     this.validateFields();
   };
 
@@ -125,7 +119,7 @@ class LoginForm extends Component {
             submitting: true,
           }),
           () => {
-            this.props.updateAuth({ user, session_id });
+            this.props.authActions.updateAuth({ user, session_id });
           }
         );
       })
@@ -208,7 +202,7 @@ class LoginForm extends Component {
   render() {
     //  console.log('LoginForm render');
 
-    const { username, password, repeat_password, errors, submitting } =
+    const { username, password, errors, submitting } =
       this.state;
 
     return (
@@ -217,23 +211,7 @@ class LoginForm extends Component {
           <h1 className="h3 mb-3 font-weight-normal text-center">
             Авторизация
           </h1>
-          {/* <div className="form-group">
-            <label htmlFor="username">Пользователь</label>
-            <input
-              type="text"
-              className={this.getClassForInput('username')}
-              id="username"
-              placeholder="Пользователь"
-              name="username"
-              value={username}
-              onChange={this.onChange}
-              onBlur={this.onBlur}
-              autoComplete="off"
-            />
-            {errors.username && (
-              <div className="invalid-feedback">{errors.username}</div>
-            )}
-          </div> */}
+
           <div className="form-group">
             <Input
               label="Пользователь"
@@ -247,25 +225,6 @@ class LoginForm extends Component {
               <div className="invalid-feedback">{errors.username}</div>
             )}
           </div>
-          {/* <div className="form-group">
-            <label htmlFor="password">Пароль</label>
-            <input
-              type="password"
-              className={this.getClassForInput('password')}
-              id="password"
-              placeholder="Пароль"
-              name="password"
-              value={password}
-              onChange={this.onChange}
-              onBlur={this.onBlur}
-              autoComplete="off"
-              // pattern="(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}"
-              title="Пароль должен содержать от 6 до 20 символов, в нем можно использовать цифры, символы и буквы латинского алфавита. При этом обязательно в пароле должна быть хотя бы одна цифра, одна буква в нижнем регистре и одна буква в верхнем регистре."
-            />
-            {errors.password && (
-              <div className="invalid-feedback">{errors.password}</div>
-            )}
-          </div> */}
           <div className="form-group">
             <Input
               label="Пароль"
@@ -281,40 +240,6 @@ class LoginForm extends Component {
               <div className="invalid-feedback">{errors.password}</div>
             )}
           </div>
-          {/* <div className="form-group">
-            <label htmlFor="repeat">Повторите пароль</label>
-            <input
-              type="password"
-              className={this.getClassForInput('repeat_password')}
-              id="repeat"
-              placeholder="Пароль"
-              name="repeat_password"
-              value={repeat_password}
-              onChange={this.onChange}
-              onBlur={this.onBlur}
-              autoComplete="off"
-            />
-            {errors.repeat_password && (
-              <div className="invalid-feedback">{errors.repeat_password}</div>
-            )}
-          </div> */}
-
-          <div className="form-group">
-            <Input
-              label="Повторите пароль"
-              placeholder="Пароль"
-              type="password"
-              className={this.getClassForInput('repeat_password')}
-              name="repeat_password"
-              value={repeat_password}
-              onChange={this.onChange}
-              onBlur={this.onBlur}
-            />
-            {errors.repeat_password && (
-              <div className="invalid-feedback">{errors.repeat_password}</div>
-            )}
-          </div>
-
           <button
             type="submit"
             className="btn btn-lg btn-info btn-block"
@@ -331,18 +256,4 @@ class LoginForm extends Component {
     );
   }
 }
-
-//переделали на НОС с контекстом
-export default AppContextHOC(LoginForm);
-
-// пример с контекстом
-// //получается, что LoginFormContext - это глупый (dummy) компонент (презентационный), в к отором находится компонент LoginForm. И туда же нам надо передать все пропсы, т.е. пробросить на 1 компонент глубже
-// const LoginFormContext = (props) => {
-//   return (
-//     <AppContext.Consumer>
-//       {(context) => <LoginForm updateUser={context.updateUser} {...props} />}
-//     </AppContext.Consumer>
-//   );
-// };
-
-//export default LoginFormContext;
+export default withAuth(LoginForm);

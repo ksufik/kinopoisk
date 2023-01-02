@@ -1,59 +1,58 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import GenresContainer from './GenresContainer';
 import Pagination from './Pagination';
 import PrimaryReleaseYear from './PrimaryReleaseYear';
 import Reset from './Reset';
 import SortBy from './SortBy';
+import { withMovies } from '../HOC/withMovies';
 
-export default class Filters extends React.PureComponent {
-  static propTypes = {
-    onChangePage: PropTypes.func.isRequired,
-    page: PropTypes.number.isRequired,
-    total_pages: PropTypes.number.isRequired,
-    onChangeFilters: PropTypes.func.isRequired,
-    filters: PropTypes.object.isRequired,
+class Filters extends React.PureComponent {
+  // static propTypes = {
+  //   onChangePage: PropTypes.func.isRequired,
+  //   page: PropTypes.number.isRequired,
+  //   total_pages: PropTypes.number.isRequired,
+  //   onChangeFilters: PropTypes.func.isRequired,
+  //   filters: PropTypes.object.isRequired,
+  // };
+
+  onChangeFilters = (event) => {
+    this.props.moviesActions.updateFilters(event.target);
   };
 
   render() {
     // const sort_by = this.props.filters.sort_by идентична const {filters: {sort_by}} = this.props;
+    const { moviesObj } = this.props;
     const {
       filters: { sort_by, primary_release_year, with_genres },
-      page,
-      total_pages,
-      onChangeFilters,
-      onChangePage,
-      getFavoritesIsClicked,
-    } = this.props;
+    } = moviesObj;
 
-    //  console.log('Filters render');
+    const { getFavoritesIsClicked } = this.props;
 
     return (
       <form className="mb-3">
         <SortBy
           sort_by={sort_by}
-          onChangeFilters={onChangeFilters}
+          onChangeFilters={this.onChangeFilters}
           getFavoritesIsClicked={getFavoritesIsClicked}
         />
         {!this.props.getFavoritesIsClicked && (
           <React.Fragment>
             <PrimaryReleaseYear
               primary_release_year={primary_release_year}
-              onChangeFilters={onChangeFilters}
+              onChangeFilters={this.onChangeFilters}
             />
             <GenresContainer
               with_genres={with_genres}
-              onChangeFilters={onChangeFilters}
+              onChangeFilters={this.onChangeFilters}
             />
-            <Reset onChangeFilters={onChangeFilters} />
+            <Reset />
           </React.Fragment>
         )}
-        <Pagination
-          page={page}
-          total_pages={total_pages}
-          onChangePage={onChangePage}
-        />
+        <Pagination />
       </form>
     );
   }
 }
+
+export default withMovies(Filters);

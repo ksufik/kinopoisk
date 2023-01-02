@@ -1,6 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import Select from '../UI/Select';
+import { withMovies } from '../HOC/withMovies';
 
 //! поиграть с выборкой годов
 function years(begin, finish) {
@@ -12,11 +13,11 @@ function years(begin, finish) {
 }
 
 // из-за PureComponent (=shouldComponentUpdate) лишние рендеры компонента при взаимодействии с другими частями фильтра не происходят
-export default class PrimaryReleaseYear extends React.PureComponent {
-  static propTypes = {
-    onChangeFilters: PropTypes.func.isRequired,
-    primary_release_year: PropTypes.string.isRequired,
-  };
+class PrimaryReleaseYear extends React.PureComponent {
+  // static propTypes = {
+  //   onChangeFilters: PropTypes.func.isRequired,
+  //   primary_release_year: PropTypes.string.isRequired,
+  // };
 
   // статические объекты или массивы загоняем в defaultProps, чтобы при каждом рендере не создавалась новая ссылка на хардкод
   static defaultProps = {
@@ -25,6 +26,7 @@ export default class PrimaryReleaseYear extends React.PureComponent {
 
   render() {
     const { primary_release_year, onChangeFilters, options } = this.props;
+
     // console.log('PrimaryReleaseYear render');
     return (
       <Select
@@ -43,3 +45,5 @@ export default class PrimaryReleaseYear extends React.PureComponent {
     );
   }
 }
+
+export default withMovies(PrimaryReleaseYear);

@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import Select from '../UI/Select';
 
 const initialOptions = {
@@ -20,15 +20,56 @@ const initialOptions = {
       label: 'Рейтинг по возрастанию',
       value: 'vote_average.asc',
     },
+    {
+      label: 'Дата выхода по убыванию',
+      value: 'release_date.desc',
+    },
+    {
+      label: 'Дата выхода по возрастанию',
+      value: 'release_date.asc',
+    },
+    {
+      label: 'Дата проката по убыванию',
+      value: 'release_date.desc',
+    },
+    {
+      label: 'Дата проката по возрастанию',
+      value: 'release_date.asc',
+    },
+    {
+      label: 'Дата премьеры по убыванию',
+      value: 'primary_release_date.desc',
+    },
+    {
+      label: 'Дата премьеры по возрастанию',
+      value: 'primary_release_date.asc',
+    },
+    {
+      label: 'Выручка по убыванию',
+      value: 'revenue.desc',
+    },
+    {
+      label: 'Выручка по возрастанию',
+      value: 'revenue.asc',
+    },
+    {
+      label: 'Голоса пользователей по убыванию',
+      value: 'vote_count.desc',
+    },
+    {
+      label: 'Голоса пользователей по возрастанию',
+      value: 'vote_count.asc',
+    },
   ],
 };
 
 // из-за PureComponent (=shouldComponentUpdate) лишние рендеры компонента при взаимодействии с другими частями фильтра не происходят
 export default class SortBy extends React.PureComponent {
-  static propTypes = {
-    onChangeFilters: PropTypes.func.isRequired,
-    sort_by: PropTypes.string.isRequired,
-  };
+  // static propTypes = {
+  //   onChangeFilters: PropTypes.func.isRequired,
+  //   sort_by: PropTypes.string.isRequired,
+  // };
+
   // при монтировании задает базовые пропсы, записывается только раз
   // статические объекты или массивы загоняем в defaultProps, чтобы при каждом рендере не создавалась новая ссылка на хардкод
 

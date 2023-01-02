@@ -11,7 +11,6 @@ class MoviePage extends PureComponent {
 
   componentDidMount() {
     CallApi.get(`movie/${this.props.params.movie_id}`).then((data) => {
-      console.log(data);
       this.setState({
         movie: data,
       });

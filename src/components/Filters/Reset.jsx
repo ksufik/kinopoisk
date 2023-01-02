@@ -1,30 +1,20 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { RESET_FILTERS } from '../../helpers/constants';
+import { withMovies } from '../HOC/withMovies';
 
-export default class Reset extends PureComponent {
-  static propTypes = {
-    onChangeFilters: PropTypes.func.isRequired,
-  };
-
-  resetFilters = () => {
-    this.props.onChangeFilters({
-      target: {
-        name: RESET_FILTERS,
-        value: null,
-      },
-    });
-  };
+class Reset extends PureComponent {
   render() {
-    //  console.log('Reset render');
+    const { moviesActions } = this.props;
+    const { resetFilters } = moviesActions;
     return (
       <button
         type="button"
         className="btn btn-outline-info mb-2"
-        onClick={this.resetFilters}
+        onClick={resetFilters}
       >
         Сбросить фильтры
       </button>
     );
   }
 }
+
+export default withMovies(Reset);

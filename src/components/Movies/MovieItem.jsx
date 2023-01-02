@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CallApi from '../api';
-import AppContextHOC from '../HOC/AppContextHOC';
+import { withAuth } from '../HOC/withAuth';
 // '../../img/600x400.jpg'
 
 class MovieItem extends React.Component {
@@ -67,4 +67,4 @@ class MovieItem extends React.Component {
   }
 }
 // делалось для получения session_id
-export default AppContextHOC(MovieItem);
+export default withAuth(MovieItem);

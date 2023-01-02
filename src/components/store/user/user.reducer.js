@@ -9,6 +9,7 @@ const initialState = {
   session_id: cookies.get(COOKIES_NAME),
   getFavoritesIsClicked: false,
   isAuth: false,
+  favoriteMovies: [],
 };
 
 export const userReducer = (state = initialState, { type, payload }) => {

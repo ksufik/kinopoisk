@@ -1,32 +1,32 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
+import { withMovies } from '../HOC/withMovies';
 
 // из-за PureComponent (=shouldComponentUpdate) лишние рендеры компонента при взаимодействии с другими частями фильтра не происходят
-export default class Pagination extends React.PureComponent {
-  static propTypes = {
-    onChangePage: PropTypes.func.isRequired,
-    page: PropTypes.number.isRequired,
-    total_pages: PropTypes.number.isRequired,
+class Pagination extends React.PureComponent {
+  // static propTypes = {
+  //   onChangePage: PropTypes.func.isRequired,
+  //   page: PropTypes.number.isRequired,
+  //   total_pages: PropTypes.number.isRequired,
+  // };
+
+  onChangePage = (page) => {
+    this.props.moviesActions.updatePage(page);
   };
 
   //! ? Глюк при множественном нажатии на любую из кнопок
   nextPage = () => {
-    this.props.onChangePage({
-      page: this.props.page + 1,
-      total_pages: this.props.total_pages,
-    });
+    this.onChangePage(this.props.moviesObj.page + 1);
   };
 
   prevPage = () => {
-    this.props.onChangePage({
-      page: this.props.page - 1,
-      total_pages: this.props.total_pages,
-    });
+    this.onChangePage(this.props.moviesObj.page - 1);
   };
 
   render() {
-    const { page, total_pages } = this.props;
-   // console.log('Pagination render');
+    const {
+      moviesObj: { page, total_pages },
+    } = this.props;
     return (
       <React.Fragment>
         <div
@@ -57,3 +57,5 @@ export default class Pagination extends React.PureComponent {
     );
   }
 }
+
+export default withMovies(Pagination);

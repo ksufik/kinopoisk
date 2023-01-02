@@ -1,9 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 
 const Genres = ({ resetGenres, genres, onChange, with_genres }) => (
   <React.Fragment>
-    {/* {console.log('Genres render')} */}
     <button
       type="button"
       className="btn btn-outline-info mb-2"
@@ -38,9 +37,9 @@ Genres.defaultProps = {
   genres: [],
 };
 
-Genres.propTypes = {
-  genres: PropTypes.array.isRequired,
-  with_genres: PropTypes.array.isRequired,
-  resetGenres: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
+// Genres.propTypes = {
+//   genres: PropTypes.array.isRequired,
+//   with_genres: PropTypes.array.isRequired,
+//   resetGenres: PropTypes.func.isRequired,
+//   onChange: PropTypes.func.isRequired,
+// };

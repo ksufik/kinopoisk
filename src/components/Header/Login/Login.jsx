@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { API_KEY_3, API_URL } from '../../../constants';
 import PropTypes from 'prop-types';
-import { fetchApi } from '../../fetchApi';
-import classNames from 'classnames';
 
-//! СДЕЛАТЬ ИЗ ЭТОГО ПРЕЗЕНТАЦИОНННЫЙ КОМПОНЕНТ
+//! СДЕЛАТЬ ИЗ ЭТОГО ПРЕЗЕНТАЦИОНННЫЙ КОМПОНЕНТ. ПОКА НЕ ИСПОЛЬЗУЕТСЯ
 
 export default class LoginForm extends Component {
   static propTypes = {
@@ -21,8 +18,6 @@ export default class LoginForm extends Component {
   };
 
   render() {
-   // console.log('LoginForm render');
-
     const { username, password, repeat_password, errors, submitting } =
       this.state;
 

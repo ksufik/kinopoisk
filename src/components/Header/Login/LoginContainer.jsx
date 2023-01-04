@@ -22,7 +22,6 @@ export default class Login extends Component {
   };
 
   render() {
-    //   console.log('LoginContainer render');
 
     const { showModal } = this.state;
 

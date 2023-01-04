@@ -5,6 +5,7 @@ import { withAuth } from '../HOC/withAuth';
 // '../../img/600x400.jpg'
 
 class MovieItem extends React.Component {
+  //добавить/удалить из favorite
   favoriteFunc = () => {
     if (this.props.session_id) {
       CallApi.post('account/{account_id}/favorite', {
@@ -28,7 +29,6 @@ class MovieItem extends React.Component {
   render() {
     const { item, favorited } = this.props;
     const imagePath = item.backdrop_path || item.poster_path;
-    //   console.log('MovieItem render');
 
     return (
       <React.Fragment>

@@ -23,10 +23,10 @@ export const withMovies = (Component) =>
       constructor() {
         super();
         this.state = {
-          favorites: [],
-          favorites_all: [],
-          favorites_total_results: null,
-          favorites_total_pages: null,
+          // favorites: [],
+          // favorites_all: [],
+          // favorites_total_results: null,
+          // favorites_total_pages: null,
         };
       }
 

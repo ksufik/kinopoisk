@@ -3,6 +3,7 @@ import {
   UPDATE_FILTERS,
   UPDATE_MOVIES,
   UPDATE_PAGE,
+  UPDATE_FAVORITES,
 } from './movies.actions';
 
 const initialState = {
@@ -15,6 +16,8 @@ const initialState = {
     with_genres: [],
   },
   page: 1,
+  favorites: [],
+  getFavoritesIsClicked: false,
 };
 
 export const moviesReducer = (state = initialState, { type, payload }) => {
@@ -46,6 +49,13 @@ export const moviesReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         page: payload.page,
+      };
+    case UPDATE_FAVORITES:
+      return {
+        ...state,
+        favorites: payload.movies,
+        total_pages: payload.total_pages,
+        total_results: payload.total_results,
       };
 
     default:

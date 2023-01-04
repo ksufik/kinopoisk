@@ -1,15 +1,21 @@
 import Cookies from 'universal-cookie';
 import { COOKIES_NAME } from '../../../helpers/constants';
-import { LOG_OUT, UPDATE_AUTH } from './user.actions';
+import {
+  LOG_OUT,
+  UPDATE_AUTH,
+  UPDATE_ERROR,
+  UPDATE_SUBMITTING,
+} from './user.actions';
 
 const cookies = new Cookies();
 
 const initialState = {
   user: null,
   session_id: cookies.get(COOKIES_NAME),
-  getFavoritesIsClicked: false,
   isAuth: false,
-  favoriteMovies: [],
+  submitting: false,
+  error: null,
+  loading: false,
 };
 
 export const userReducer = (state = initialState, { type, payload }) => {
@@ -35,6 +41,16 @@ export const userReducer = (state = initialState, { type, payload }) => {
         user: null,
         session_id: null,
         isAuth: false,
+      };
+    case UPDATE_ERROR:
+      return {
+        ...state,
+        error: payload.error,
+      };
+    case UPDATE_SUBMITTING:
+      return {
+        ...state,
+        submitting: payload.submitting,
       };
     default:
       return state;

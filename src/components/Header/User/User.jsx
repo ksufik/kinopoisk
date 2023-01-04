@@ -7,7 +7,6 @@ import {
   DropdownMenu,
   DropdownToggle,
 } from 'reactstrap';
-import CallApi from '../../api';
 
 //! регистрация/авторизация
 class User extends Component {
@@ -25,13 +24,7 @@ class User extends Component {
 
   handleLogOut = () => {
     const { auth, authActions } = this.props;
-    CallApi.delete('authentication/session', {
-      body: {
-        session_id: auth.session_id,
-      },
-    }).then(() => {
-      authActions.logOut();
-    });
+    authActions.logOut(auth.session_id);
   };
 
   handleGetFavoritesMovies = () => {

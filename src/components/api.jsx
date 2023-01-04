@@ -52,6 +52,7 @@ export default class CallApi {
     };
 
     return fetchApi(`${API_URL}/${url}?${queryString.stringify(queryParams)}`, {
+      //! ПОЧИТАТЬ ПРО OPTIONS В FECTH И PROMISE
       method: 'POST',
       mode: 'cors',
       headers: {

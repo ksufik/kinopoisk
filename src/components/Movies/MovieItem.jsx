@@ -1,33 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import CallApi from '../api';
-import { withAuth } from '../HOC/withAuth';
-// '../../img/600x400.jpg'
+import { withMovies } from '../HOC/withMovies';
 
 class MovieItem extends React.Component {
   //добавить/удалить из favorite
   favoriteFunc = () => {
-    if (this.props.session_id) {
-      CallApi.post('account/{account_id}/favorite', {
-        params: {
-          session_id: this.props.session_id,
-        },
-        body: {
-          media_type: 'movie',
-          media_id: this.props.item.id,
-          favorite: !this.props.favorited,
-        },
-      }).then((data) => {
-        console.log('favorite', data);
-        //! сделать так, чтобы при добавлении/удалении favorite movie весь массив не добавлялся в существующий
-        this.props.emptyFavoriteAll();
-        this.props.getFavorites();
-      });
-    }
+    this.props.moviesActions.addDelFav({
+      movie: this.props.item,
+      favorited: this.props.favorited,
+    });
   };
 
   render() {
-    const { item, favorited } = this.props;
+    const { item, favorited, isAuth } = this.props;
     const imagePath = item.backdrop_path || item.poster_path;
 
     return (
@@ -51,14 +36,16 @@ class MovieItem extends React.Component {
             <h6 className="card-title">{item.title}</h6>
             <div className="card-bottom d-flex justify-content-between">
               <div className="card-text">Рейтинг: {item.vote_average}</div>
-              <span
-                className="material-icons"
-                style={{ cursor: 'pointer', zIndex: 2 }}
-                onClick={this.favoriteFunc}
-                title="Избранное"
-              >
-                {favorited ? 'star' : 'star_border'}
-              </span>
+              {isAuth && (
+                <span
+                  className="material-icons"
+                  style={{ cursor: 'pointer', zIndex: 2 }}
+                  onClick={this.favoriteFunc}
+                  title="Избранное"
+                >
+                  {favorited ? 'star' : 'star_border'}
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -66,5 +53,5 @@ class MovieItem extends React.Component {
     );
   }
 }
-// делалось для получения session_id
-export default withAuth(MovieItem);
+
+export default withMovies(MovieItem);

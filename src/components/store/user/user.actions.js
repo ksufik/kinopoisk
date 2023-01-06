@@ -1,9 +1,13 @@
+import { COOKIES_AUTH } from '../../../helpers/constants';
+import { cookies } from '../../../helpers/utils';
 import CallApi from '../../api';
+import { getAllFavorites } from '../movies/movies.actions';
 
 export const UPDATE_AUTH = 'USER::UPDATE_AUTH';
 export const LOG_OUT = 'USER::LOG_OUT';
 export const UPDATE_SUBMITTING = 'USER::UPDATE_SUBMITTING';
 export const UPDATE_ERROR = 'USER::UPDATE_ERROR';
+export const FAVORITES_CLICKED = 'USER::FAVORITES_CLICKED';
 
 export const updateAuth = ({ user, session_id }) => ({
   type: UPDATE_AUTH,
@@ -27,6 +31,11 @@ export const updateError = (error) => ({
   payload: { error },
 });
 
+export const updateFavoritesIsClicked = (clicked) => ({
+  type: FAVORITES_CLICKED,
+  payload: { clicked },
+});
+
 export const getAccount = (session_id) => async (dispatch) => {
   //dispatch(animeLoading());
 
@@ -35,6 +44,7 @@ export const getAccount = (session_id) => async (dispatch) => {
       .then((user) => {
         dispatch(updateAuth({ user, session_id }));
         dispatch(updateSubmitting(false));
+				dispatch(getAllFavorites());
         // dispatch(animeSuccess(result.data));
       })
       .catch((error) => {
@@ -50,7 +60,7 @@ export const getAccount = (session_id) => async (dispatch) => {
 
 export const logIn =
   ({ username, password }) =>
-  async (dispatch) => {
+  async (dispatch, getState) => {
     //dispatch(animeLoading());
 
     //заглушка от множественных кликов: пока идет запрос кнопка не работает
@@ -80,6 +90,11 @@ export const logIn =
       })
       .then((user) => {
         dispatch(updateAuth({ user, session_id }));
+        cookies.set(COOKIES_AUTH, getState().user.session_id, {
+          path: '/',
+          // 30 дней в секундах
+          maxAge: 3600 * 24 * 30,
+        });
       })
       .catch((error) => {
         dispatch(updateError(error.status_message));
@@ -101,6 +116,7 @@ export const logOut = (session_id) => async (dispatch) => {
   })
     .then(() => {
       dispatch(updateLogOut());
+      cookies.remove(COOKIES_AUTH);
     })
     .catch((error) => {
       console.log('logOut error');
@@ -110,4 +126,8 @@ export const logOut = (session_id) => async (dispatch) => {
       console.log('logOut finally');
       //dispatch(animeLoading());
     });
+};
+
+export const favoritesIsClicked = (clicked) => (dispatch) => {
+  dispatch(updateFavoritesIsClicked(clicked));
 };

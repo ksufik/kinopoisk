@@ -1,31 +1,26 @@
-import Cookies from 'universal-cookie';
-import { COOKIES_NAME } from '../../../helpers/constants';
+import { cookies } from '../../../helpers/utils';
+import { COOKIES_AUTH } from '../../../helpers/constants';
 import {
   LOG_OUT,
   UPDATE_AUTH,
   UPDATE_ERROR,
   UPDATE_SUBMITTING,
+  FAVORITES_CLICKED,
 } from './user.actions';
-
-const cookies = new Cookies();
 
 const initialState = {
   user: null,
-  session_id: cookies.get(COOKIES_NAME),
+  session_id: cookies.get(COOKIES_AUTH),
   isAuth: false,
   submitting: false,
   error: null,
   loading: false,
+  getFavoritesIsClicked: false,
 };
 
 export const userReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case UPDATE_AUTH:
-      cookies.set(COOKIES_NAME, payload.session_id, {
-        path: '/',
-        // 30 дней в секундах
-        maxAge: 3600 * 24 * 30,
-      });
       return {
         //иммутабельность
         ...state,
@@ -34,7 +29,6 @@ export const userReducer = (state = initialState, { type, payload }) => {
         isAuth: true,
       };
     case LOG_OUT:
-      cookies.remove(COOKIES_NAME);
       return {
         //иммутабельность
         ...state,
@@ -51,6 +45,11 @@ export const userReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         submitting: payload.submitting,
+      };
+    case FAVORITES_CLICKED:
+      return {
+        ...state,
+        getFavoritesIsClicked: payload.clicked,
       };
     default:
       return state;

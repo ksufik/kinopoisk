@@ -22,21 +22,18 @@ class Filters extends React.PureComponent {
 
   render() {
     // const sort_by = this.props.filters.sort_by идентична const {filters: {sort_by}} = this.props;
-    const { moviesObj } = this.props;
-    const {
-      filters: { sort_by, primary_release_year, with_genres },
-    } = moviesObj;
-
-    const { getFavoritesIsClicked } = this.props;
+    const { moviesObj, getFavoritesIsClicked } = this.props;
+    const { filters } = moviesObj;
+    const { sort_by, primary_release_year, with_genres } = filters;
 
     return (
       <form className="mb-3">
         <SortBy
           sort_by={sort_by}
           onChangeFilters={this.onChangeFilters}
-          getFavoritesIsClicked={getFavoritesIsClicked}
+          filters={filters}
         />
-        {!this.props.getFavoritesIsClicked && (
+        {!getFavoritesIsClicked && (
           <React.Fragment>
             <PrimaryReleaseYear
               primary_release_year={primary_release_year}

@@ -1,5 +1,5 @@
 export const LANGUAGE_RU = 'ru-RU';
 
-export const RESET_FILTERS = 'reset';
+export const COOKIES_AUTH = 'movie_app_session';
 
-export const COOKIES_NAME = 'movieApp_session';
+export const COOKIES_FAVORITES = 'favorite_movies';

@@ -17,25 +17,21 @@ class App extends React.PureComponent {
     });
   };
 
-  onGetFavorites = (value) => {
-    this.setState({
-      getFavoritesIsClicked: value,
-    });
-  };
-
   componentDidMount() {
     const { auth, authActions } = this.props;
-
     authActions.getAccount(auth.session_id);
   }
 
   render() {
-    const { auth } = this.props;
+    const { auth, authActions } = this.props;
 
     return (
       <BrowserRouter>
         <React.Fragment>
-          <Header user={auth.user} onGetFavorites={this.onGetFavorites} />
+          <Header
+            user={auth.user}
+            favoritesIsClicked={authActions.favoritesIsClicked}
+          />
         </React.Fragment>
         <Routes>
           {/* //! public and private */}

@@ -27,7 +27,6 @@ class PrimaryReleaseYear extends React.PureComponent {
   render() {
     const { primary_release_year, onChangeFilters, options } = this.props;
 
-    // console.log('PrimaryReleaseYear render');
     return (
       <Select
         id="primary_release_year"

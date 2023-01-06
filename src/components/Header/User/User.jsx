@@ -25,10 +25,12 @@ class User extends Component {
   handleLogOut = () => {
     const { auth, authActions } = this.props;
     authActions.logOut(auth.session_id);
+    authActions.favoritesIsClicked(false);
   };
 
-  handleGetFavoritesMovies = () => {
-    this.props.onGetFavorites(true);
+  handleGetFavorites = () => {
+    const { authActions } = this.props;
+    authActions.favoritesIsClicked(true);
   };
 
   render() {
@@ -56,7 +58,7 @@ class User extends Component {
             />
           </DropdownToggle>
           <DropdownMenu end>
-            <DropdownItem onClick={this.handleGetFavoritesMovies}>
+            <DropdownItem onClick={this.handleGetFavorites}>
               Любимые фильмы
             </DropdownItem>
             <DropdownItem onClick={this.handleLogOut}>Выйти</DropdownItem>

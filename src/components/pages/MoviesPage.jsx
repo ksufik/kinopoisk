@@ -1,40 +1,41 @@
 import React from 'react';
 import Filters from '../Filters/Filters';
+import { withAuth } from '../HOC/withAuth';
 import { withMovies } from '../HOC/withMovies';
 import MoviesList from '../Movies/MoviesList';
 
 class MoviesPage extends React.Component {
+  componentDidMount() {
+    const { filters, page } = this.props.moviesObj;
+
+    this.props.moviesActions.getMovies({ filters, page });
+  }
 
   componentDidUpdate(prevProps) {
     const {
       moviesObj: { filters, page },
-      moviesActions: { getMovies, updatePage },
+      moviesActions: { getMovies, updatePage, getFavorites },
+      auth: { getFavoritesIsClicked },
     } = this.props;
+
+    const getArray = getFavoritesIsClicked ? getFavorites : getMovies;
 
     if (filters !== prevProps.moviesObj.filters) {
       updatePage(1);
-      getMovies(filters, 1);
+      getArray({ filters, page: 1 });
     }
+
     if (page !== prevProps.moviesObj.page) {
-      getMovies(filters, page);
+      getArray({ filters, page });
     }
   }
 
-  // emptyFavoriteAll = () => {
-  //   this.setState({
-  //     favorites_all: [],
-  //   });
-  // };
-
-  // onGetFavorites = (value) => {
-  //   this.setState({
-  //     getFavoritesIsClicked: value,
-  //   });
-  // };
-
   render() {
-    const { moviesObj } = this.props;
-    const { filters, page, total_pages } = moviesObj;
+    const { moviesObj, auth } = this.props;
+    const { filters, page, total_pages, movies, favorites, favorites_all } =
+      moviesObj;
+    const { getFavoritesIsClicked, isAuth } = auth;
+
     return (
       <div className="container text-info">
         <div className="row mt-4">
@@ -48,13 +49,19 @@ class MoviesPage extends React.Component {
                   total_pages={total_pages}
                   onChangeFilters={this.onChangeFilters}
                   onChangePage={this.onChangePage}
-                  //  getFavoritesIsClicked={getFavoritesIsClicked}
+                  getFavoritesIsClicked={getFavoritesIsClicked}
                 />
               </div>
             </div>
           </div>
           <div className="col-8">
-            <MoviesList />
+            <MoviesList
+              getFavoritesIsClicked={getFavoritesIsClicked}
+              isAuth={isAuth}
+              movies={movies}
+              favorites={favorites}
+              favorites_all={favorites_all}
+            />
           </div>
         </div>
       </div>
@@ -62,4 +69,4 @@ class MoviesPage extends React.Component {
   }
 }
 
-export default withMovies(MoviesPage);
+export default withMovies(withAuth(MoviesPage));

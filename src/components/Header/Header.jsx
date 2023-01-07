@@ -1,3 +1,4 @@
+import { Search } from '@material-ui/icons';
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { withMovies } from '../HOC/withMovies';
@@ -31,6 +32,7 @@ class Header extends PureComponent {
               </Link>
             </li>
           </ul>
+					<Search/>
           {headerUser ? <User /> : <LoginContainer />}
         </div>
       </nav>

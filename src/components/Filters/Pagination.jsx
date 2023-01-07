@@ -29,10 +29,7 @@ class Pagination extends React.PureComponent {
     } = this.props;
     return (
       <React.Fragment>
-        <div
-          className="btn-group"
-          style={{ display: 'flex', justifyContent: 'space-between' }}
-        >
+        <div className="btn-group d-sm-flex justify-content-sm-between">
           <button
             type="button"
             className="btn btn-info"

@@ -58,59 +58,63 @@ export default class MovieCredits extends PureComponent {
     const { cast, activeIndex } = this.state;
 
     return (
-      <Carousel
-        activeIndex={activeIndex}
-        next={this.next}
-        previous={this.previous}
-        className="mt-2 w-75 mx-auto"
-      >
-        <CarouselIndicators
-          items={cast}
-          activeIndex={activeIndex}
-          onClickHandler={this.goToIndex}
-        />
-        {cast.map((actor) => {
-          return (
-            <CarouselItem
-              onExiting={() =>
-                this.setState({
-                  animating: true,
-                })
-              }
-              onExited={() =>
-                this.setState({
-                  animating: false,
-                })
-              }
-              key={actor.order}
-            >
-              <img
-                style={{ height: '60vmin' }}
-                src={
-                  actor.profile_path
-                    ? `https://image.tmdb.org/t/p/w500${actor.profile_path}`
-                    : 'https://dummyimage.com/600x400/1a1a1c/ffffff.jpg&text=%D0%9D%D0%95%D0%A2+%D0%9F%D0%9E%D0%A1%D0%A2%D0%95%D0%A0%D0%90'
-                }
-                alt={actor.name}
-              />
-              <CarouselCaption
-                captionText={actor.character}
-                captionHeader={actor.name}
-              />
-            </CarouselItem>
-          );
-        })}
-        <CarouselControl
-          direction="prev"
-          directionText="Previous"
-          onClickHandler={this.previous}
-        />
-        <CarouselControl
-          direction="next"
-          directionText="Next"
-          onClickHandler={this.next}
-        />
-      </Carousel>
+      <React.Fragment>
+        {cast.length > 0 && (
+          <Carousel
+            activeIndex={activeIndex}
+            next={this.next}
+            previous={this.previous}
+            className="mt-2 w-75 mx-auto"
+          >
+            <CarouselIndicators
+              items={cast}
+              activeIndex={activeIndex}
+              onClickHandler={this.goToIndex}
+            />
+            {cast.map((actor) => {
+              return (
+                <CarouselItem
+                  onExiting={() =>
+                    this.setState({
+                      animating: true,
+                    })
+                  }
+                  onExited={() =>
+                    this.setState({
+                      animating: false,
+                    })
+                  }
+                  key={actor.order}
+                >
+                  <img
+                    style={{ height: '60vmin' }}
+                    src={
+                      actor.profile_path
+                        ? `https://image.tmdb.org/t/p/w500${actor.profile_path}`
+                        : 'https://dummyimage.com/600x400/1a1a1c/ffffff.jpg&text=%D0%9D%D0%95%D0%A2+%D0%9F%D0%9E%D0%A1%D0%A2%D0%95%D0%A0%D0%90'
+                    }
+                    alt={actor.name}
+                  />
+                  <CarouselCaption
+                    captionText={actor.character}
+                    captionHeader={actor.name}
+                  />
+                </CarouselItem>
+              );
+            })}
+            <CarouselControl
+              direction="prev"
+              directionText="Previous"
+              onClickHandler={this.previous}
+            />
+            <CarouselControl
+              direction="next"
+              directionText="Next"
+              onClickHandler={this.next}
+            />
+          </Carousel>
+        )}
+      </React.Fragment>
     );
   }
 }

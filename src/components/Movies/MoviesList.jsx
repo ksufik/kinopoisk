@@ -8,7 +8,7 @@ class MoviesList extends React.PureComponent {
   // };
 
   render() {
-    const { getFavoritesIsClicked, isAuth,favorites, movies, favorites_all } =
+    const { getFavoritesIsClicked, isAuth, favorites, movies, favorites_all } =
       this.props;
     const array = getFavoritesIsClicked ? favorites : movies;
 
@@ -19,10 +19,10 @@ class MoviesList extends React.PureComponent {
         ) : (
           array.map((movie) => {
             return (
-              <div key={movie.id} className="col-6 mb-4">
+              <div key={movie.id} className="col-6 mb-4 ">
                 <MovieItem
                   item={movie}
-									isAuth={isAuth}
+                  isAuth={isAuth}
                   favorited={
                     favorites_all.find((favorite) => favorite.id === movie.id)
                       ? true

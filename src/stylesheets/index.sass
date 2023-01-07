@@ -33,3 +33,23 @@ body
 
 .carousel-control-next-icon
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E")
+
+
+.btn-up 
+  position: fixed
+  left: 23vw
+  bottom: 4vmin
+  cursor: pointer
+  display: flex
+  align-items: center
+  justify-content: center
+  transition: opacity 0.15s ease-in-out, transform 0.3s ease-in-out, color 0.3s, background-color 0.3s
+  font-size: 2rem
+  opacity: 1
+  transform: translateY(0)
+
+
+
+.btn-up_hiding 
+  opacity: 0
+  transform: translateY(100px)

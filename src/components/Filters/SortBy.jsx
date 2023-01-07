@@ -69,48 +69,48 @@ class SortBy extends React.PureComponent {
   //   sort_by: PropTypes.string.isRequired,
   // };
 
-  // state = {
-  //   isClicked: false,
-  // };
-
   state = {
     isClicked: false,
-    sort_by_arr: null,
-    //options: this.initialOptions,
   };
 
   initialOptions = () => {
-    return [
-      {
-        label: 'Популярные',
-        value: `popularity.${this.state.isClicked ? 'asc' : 'desc'}`,
-      },
-      {
-        label: 'Рейтинг',
-        value: `vote_average.${this.state.isClicked ? 'asc' : 'desc'}`,
-      },
-      {
-        label: 'Дата выхода',
-        value: `release_date.${this.state.isClicked ? 'asc' : 'desc'}`,
-      },
-      {
-        label: 'Дата проката',
-        value: `release_date.${this.state.isClicked ? 'asc' : 'desc'}`,
-      },
-      {
-        label: 'Дата премьеры',
-        value: `primary_release_date.${this.state.isClicked ? 'asc' : 'desc'}`,
-      },
-      {
-        label: 'Выручка',
-        value: `revenue.${this.state.isClicked ? 'asc' : 'desc'}`,
-      },
-
-      {
-        label: 'Голоса пользователей',
-        value: `vote_count.${this.state.isClicked ? 'asc' : 'desc'}`,
-      },
-    ];
+    if (this.props.auth.getFavoritesIsClicked) {
+      return [
+        {
+          label: 'Дата добавления',
+          value: `created_at.${this.state.isClicked ? 'asc' : 'desc'}`,
+        },
+      ];
+    } else {
+      return [
+        {
+          label: 'Популярные',
+          value: `popularity.${this.state.isClicked ? 'asc' : 'desc'}`,
+        },
+        {
+          label: 'Рейтинг',
+          value: `vote_average.${this.state.isClicked ? 'asc' : 'desc'}`,
+        },
+        {
+          label: 'Дата выхода',
+          value: `release_date.${this.state.isClicked ? 'asc' : 'desc'}`,
+        },
+        {
+          label: 'Дата премьеры',
+          value: `primary_release_date.${
+            this.state.isClicked ? 'asc' : 'desc'
+          }`,
+        },
+        {
+          label: 'Выручка',
+          value: `revenue.${this.state.isClicked ? 'asc' : 'desc'}`,
+        },
+        {
+          label: 'Голоса пользователей',
+          value: `vote_count.${this.state.isClicked ? 'asc' : 'desc'}`,
+        },
+      ];
+    }
   };
 
   withoutOrder = (string) => {
@@ -120,102 +120,52 @@ class SortBy extends React.PureComponent {
 
   withOrder = (string) => {
     let sort_by_arr = this.withoutOrder(string);
-    sort_by_arr += this.state.isClicked ? '.acs' : '.desc';
+    sort_by_arr += this.state.isClicked ? '.asc' : '.desc';
     return sort_by_arr;
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (
       this.props.auth.getFavoritesIsClicked !==
       prevProps.auth.getFavoritesIsClicked
     ) {
       if (this.props.auth.getFavoritesIsClicked) {
-        this.setState({
-          options: [
-            {
-              label: 'Дата добавления по убыванию',
-              value: 'created_at.desc',
-            },
-            {
-              label: 'Дата добавления по возрастанию',
-              value: 'created_at.asc',
-            },
-          ],
-        });
+        this.initialOptions();
       } else {
         this.setState({
-          options: this.initialOptions,
+          isClicked: false,
         });
       }
     }
-
-    if (this.props.sort_by !== prevProps.sort_by) {
-      this.setState({
-        sort_by_arr: this.withoutOrder(this.props.sort_by),
-      });
-    }
-
-    // if (
-    //   this.props.filters !== prevProps.filters &&
-    //   this.state.sort_by_arr !== prevState.sort_by_arr
-    //   // !prevState.isClicked &&
-    //   // prevState.isClicked === this.state.isClicked
-    // ) {
-    //   this.setState({
-    //     isClicked: false,
-    //   });
-    //   console.log('prevProps', prevProps);
-    //   console.log('this.props.sort_by', this.props.sort_by);
-    //   console.log('prevState', prevState);
-    // }
   }
 
   onClick = (sort_by) => {
-    // не работает, выдает undefined
-    //console.log('event.target.value:', event.target.value);
     this.setState(
       (prevState) => ({
         isClicked: !prevState.isClicked,
       }),
       () => {
-        // const sort_by_arr = sort_by.split('.');
-        //  const sort_by_arr = this.withoutOrder(sort_by);
-        this.setState({
-          sort_by_arr: this.withoutOrder(sort_by),
+        this.props.onChangeFilters({
+          target: {
+            name: 'sort_by',
+            value: this.withOrder(sort_by),
+          },
         });
-        //sort_by_arr[1] = this.state.isClicked ? 'acs' : 'desc';
-
-        //  console.log('sort_by_arr:', sort_by_arr);
-
-        //   this.props.onChangeFilters({
-        //     target: {
-        //       name: 'sort_by',
-        //       value: this.withOrder(sort_by),
-        //     },
-        //   });
       }
     );
   };
-
-  // стрелка возвращается в базовое значение: меняются фильтры (если сорт бай другой, если такой же, то нет)
-  //
 
   render() {
     const { sort_by, onChangeFilters } = this.props;
     const { isClicked } = this.state;
     const options = this.initialOptions();
-    console.log('isClicked:', isClicked);
-    console.log('options', options);
-    console.log('sort_by', sort_by);
 
     return (
-      <div style={{ display: 'flex', position: 'relative' }}>
+      <div className="d-sm-flex position-relative">
         <span
-          className="material-icons"
+          className="material-icons position-absolute"
           style={{
             cursor: 'pointer',
-            alignSelf: 'center',
-            position: 'absolute',
             right: 0,
             top: 0,
           }}

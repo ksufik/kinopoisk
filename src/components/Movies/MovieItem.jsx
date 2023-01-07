@@ -18,10 +18,9 @@ class MovieItem extends React.Component {
     return (
       <React.Fragment>
         <div
-          className="card card-link btn-outline-info"
-          style={{ width: '100%' }}
+          className="card card-link btn-outline-info w-100"
         >
-          <Link to={`/movie/${item.id}`}>
+          <Link to={`/movie/${item.id}`} target="_blank">
             <img
               className="card-img-top card-img__height"
               src={

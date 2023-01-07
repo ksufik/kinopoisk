@@ -3,6 +3,7 @@ import Filters from '../Filters/Filters';
 import { withAuth } from '../HOC/withAuth';
 import { withMovies } from '../HOC/withMovies';
 import MoviesList from '../Movies/MoviesList';
+import ScrollToTop from './ScrollToTop/ScrollToTop';
 
 class MoviesPage extends React.Component {
   componentDidMount() {
@@ -40,7 +41,7 @@ class MoviesPage extends React.Component {
       <div className="container text-info">
         <div className="row mt-4">
           <div className="col-4">
-            <div className="card" style={{ width: '100%' }}>
+            <div className="card w-100">
               <div className="card-body">
                 <h3>Фильтры:</h3>
                 <Filters

@@ -7,32 +7,59 @@ class MoviesList extends React.PureComponent {
   //   movies: PropTypes.array.isRequired,
   // };
 
+  text = (getFavoritesIsClicked) => {
+    if (getFavoritesIsClicked) {
+      return <span>В списке нет фильмов</span>;
+    } else {
+      return (
+        <span>
+          По вашему запросу ничего не найдено
+          <br />
+          либо возникла ошибка:{' '}
+          <ins>база данных не работает в вашей стране.</ins>
+          <br />
+          Воспользуйтесь VPN.
+        </span>
+      );
+    }
+  };
+
+  //! не получается искать, пока в любимых находишься
+  componentDidUpdate() {}
+
   render() {
-    const { getFavoritesIsClicked, isAuth, favorites, movies, favorites_all } =
-      this.props;
+    const {
+      getFavoritesIsClicked,
+      isAuth,
+      movies,
+      favorites,
+      favorites_all,
+      error,
+    } = this.props;
+
     const array = getFavoritesIsClicked ? favorites : movies;
 
     return (
       <div className="row">
-        {getFavoritesIsClicked && array.length === 0 ? (
-          <h6>В списке нет фильмов</h6>
-        ) : (
-          array.map((movie) => {
-            return (
-              <div key={movie.id} className="col-6 mb-4 ">
-                <MovieItem
-                  item={movie}
-                  isAuth={isAuth}
-                  favorited={
-                    favorites_all.find((favorite) => favorite.id === movie.id)
-                      ? true
-                      : false
-                  }
-                />
-              </div>
-            );
-          })
-        )}
+        {error
+          ? { error }
+          : array.length === 0
+          ? this.text(getFavoritesIsClicked)
+          : array.map((movie) => {
+              return (
+                <div key={movie.id} className="col-6 mb-4 ">
+                  <MovieItem
+                    item={movie}
+                    isAuth={isAuth}
+                    favorited={
+                      favorites_all.find((favorite) => favorite.id === movie.id)
+                        ? true
+                        : false
+                    }
+                  />
+                </div>
+              );
+            })}
       </div>
     );
   }

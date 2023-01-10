@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import CallApi from '../api';
+import CallApi from '../../api';
 import {
   Carousel,
   CarouselItem,

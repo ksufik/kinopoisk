@@ -1,5 +1,5 @@
-import { cookies } from '../../../helpers/utils';
-import { COOKIES_AUTH } from '../../../helpers/constants';
+import { cookies } from '../../helpers/utils';
+import { COOKIES_AUTH } from '../../helpers/constants';
 import {
   LOG_OUT,
   UPDATE_AUTH,
@@ -7,6 +7,7 @@ import {
   UPDATE_SUBMITTING,
   FAVORITES_CLICKED,
 } from './user.actions';
+import { UPDATE_SEARCH } from '../movies/movies.actions';
 
 const initialState = {
   user: null,
@@ -50,6 +51,13 @@ export const userReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         getFavoritesIsClicked: payload.clicked,
+      };
+    case UPDATE_SEARCH:
+      return {
+        ...state,
+        getFavoritesIsClicked: payload.search
+          ? false
+          : state.getFavoritesIsClicked,
       };
     default:
       return state;

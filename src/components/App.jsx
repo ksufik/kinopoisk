@@ -4,7 +4,7 @@ import MoviesPage from './pages/MoviesPage';
 import MoviePage from './pages/MoviePage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { withAuth } from './HOC/withAuth';
-import ScrollToTop from './pages/ScrollToTop/ScrollToTop';
+import ScrollToTop from './ScrollToTop/ScrollToTop';
 
 class App extends React.PureComponent {
   componentDidMount() {

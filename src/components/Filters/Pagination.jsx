@@ -14,7 +14,6 @@ class Pagination extends React.PureComponent {
     this.props.moviesActions.updatePage(page);
   };
 
-  //! ? Глюк при множественном нажатии на любую из кнопок
   nextPage = () => {
     this.onChangePage(this.props.moviesObj.page + 1);
   };
@@ -29,7 +28,7 @@ class Pagination extends React.PureComponent {
     } = this.props;
     return (
       <React.Fragment>
-        <div className="btn-group d-sm-flex justify-content-sm-between">
+        <div className="btn-group d-flex">
           <button
             type="button"
             className="btn btn-info"

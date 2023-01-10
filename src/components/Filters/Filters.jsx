@@ -21,31 +21,32 @@ class Filters extends React.PureComponent {
   };
 
   render() {
-    // const sort_by = this.props.filters.sort_by идентична const {filters: {sort_by}} = this.props;
     const { moviesObj, getFavoritesIsClicked } = this.props;
-    const { filters } = moviesObj;
+    const { filters, search } = moviesObj;
     const { sort_by, primary_release_year, with_genres } = filters;
 
     return (
       <form className="mb-3">
+        {/* {!search && ( */}
         <SortBy
           sort_by={sort_by}
           onChangeFilters={this.onChangeFilters}
           filters={filters}
+          disabled={search}
         />
-        {!getFavoritesIsClicked && (
-          <React.Fragment>
-            <PrimaryReleaseYear
-              primary_release_year={primary_release_year}
-              onChangeFilters={this.onChangeFilters}
-            />
-            <GenresContainer
-              with_genres={with_genres}
-              onChangeFilters={this.onChangeFilters}
-            />
-            <Reset />
-          </React.Fragment>
-        )}
+        <React.Fragment>
+          <PrimaryReleaseYear
+            primary_release_year={primary_release_year}
+            onChangeFilters={this.onChangeFilters}
+            disabled={getFavoritesIsClicked || search}
+          />
+          <GenresContainer
+            with_genres={with_genres}
+            onChangeFilters={this.onChangeFilters}
+            disabled={getFavoritesIsClicked || search}
+          />
+          <Reset disabled={getFavoritesIsClicked || search} />
+        </React.Fragment>
         <Pagination />
       </form>
     );

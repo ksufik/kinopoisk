@@ -156,29 +156,36 @@ class SortBy extends React.PureComponent {
   };
 
   render() {
-    const { sort_by, onChangeFilters } = this.props;
+    const { sort_by, onChangeFilters, disabled } = this.props;
     const { isClicked } = this.state;
     const options = this.initialOptions();
 
     return (
       <div className="d-sm-flex position-relative">
-        <span
+        <button
+          disabled={disabled}
           className="material-icons position-absolute"
           style={{
-            cursor: 'pointer',
+            cursor: `${disabled ? 'default' : 'pointer'}`,
             right: 0,
             top: 0,
+            backgroundColor: 'transparent',
+            border: 'none',
+            color: 'inherit',
+            outline: 'none',
           }}
+          type="button"
           onClick={() => this.onClick(sort_by)}
         >
           {isClicked ? 'vertical_align_top' : 'vertical_align_bottom'}
-        </span>
+        </button>
         <Select
           id="sort_by"
           name="sort_by"
           value={sort_by}
           onChange={onChangeFilters}
           labelText="Сортировать по:"
+          disabled={disabled}
         >
           {options.map((option, index) => (
             <option key={index} value={option.value}>

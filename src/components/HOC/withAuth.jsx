@@ -1,5 +1,5 @@
 import React from 'react';
-import * as authActions from '../store/user/user.actions';
+import * as authActions from '../../store/user/user.actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 

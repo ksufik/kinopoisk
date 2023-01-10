@@ -3,7 +3,6 @@ import Filters from '../Filters/Filters';
 import { withAuth } from '../HOC/withAuth';
 import { withMovies } from '../HOC/withMovies';
 import MoviesList from '../Movies/MoviesList';
-import ScrollToTop from './ScrollToTop/ScrollToTop';
 
 class MoviesPage extends React.Component {
   componentDidMount() {
@@ -12,16 +11,37 @@ class MoviesPage extends React.Component {
     this.props.moviesActions.getMovies({ filters, page });
   }
 
-  componentDidUpdate(prevProps) {
+  getArray = () => {
     const {
-      moviesObj: { filters, page },
-      moviesActions: { getMovies, updatePage, getFavorites },
+      moviesObj: { search },
+      moviesActions: { getMovies, getFavorites, getSearched },
       auth: { getFavoritesIsClicked },
     } = this.props;
 
-    const getArray = getFavoritesIsClicked ? getFavorites : getMovies;
+    if (getFavoritesIsClicked) {
+      return getFavorites;
+    } else if (search) {
+      return getSearched;
+    } else {
+      return getMovies;
+    }
+  };
 
-    if (filters !== prevProps.moviesObj.filters) {
+  componentDidUpdate(prevProps) {
+    const {
+      moviesObj: { filters, page, search },
+      moviesActions: { updatePage, getSearched },
+      auth: { getFavoritesIsClicked },
+    } = this.props;
+
+    const getArray = this.getArray();
+
+    if (
+      (search && search !== prevProps.moviesObj.search) ||
+      (getFavoritesIsClicked &&
+        getFavoritesIsClicked !== prevProps.auth.getFavoritesIsClicked) ||
+      filters !== prevProps.moviesObj.filters
+    ) {
       updatePage(1);
       getArray({ filters, page: 1 });
     }
@@ -33,8 +53,15 @@ class MoviesPage extends React.Component {
 
   render() {
     const { moviesObj, auth } = this.props;
-    const { filters, page, total_pages, movies, favorites, favorites_all } =
-      moviesObj;
+    const {
+      filters,
+      page,
+      total_pages,
+      movies,
+      favorites,
+      favorites_all,
+      error,
+    } = moviesObj;
     const { getFavoritesIsClicked, isAuth } = auth;
 
     return (
@@ -62,6 +89,7 @@ class MoviesPage extends React.Component {
               movies={movies}
               favorites={favorites}
               favorites_all={favorites_all}
+              error={error}
             />
           </div>
         </div>

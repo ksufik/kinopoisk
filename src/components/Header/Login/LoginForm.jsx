@@ -72,8 +72,7 @@ class LoginForm extends Component {
 
     //если есть ошибки
     if (Object.keys(errors).length > 0) {
-      //////////////! ? зачем здесь (
-      this.setState(
+         this.setState(
         (prevState) => ({
           errors: {
             ...prevState.errors,

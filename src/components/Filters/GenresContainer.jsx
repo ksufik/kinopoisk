@@ -1,7 +1,7 @@
 import React from 'react';
 //import PropTypes from 'prop-types';
 import Genres from './Genres';
-import CallApi from '../api';
+import CallApi from '../../api';
 
 // из-за PureComponent (=shouldComponentUpdate) лишние рендеры компонента при взаимодействии с другими частями фильтра не происходят
 export default class GenresContainer extends React.PureComponent {
@@ -18,7 +18,7 @@ export default class GenresContainer extends React.PureComponent {
   }
 
   getGenres = () => {
-    CallApi.get('/genre/movie/list')
+    CallApi.get('genre/movie/list')
       .then((data) => {
         this.setState({
           genres: data.genres,
@@ -57,7 +57,7 @@ export default class GenresContainer extends React.PureComponent {
 
   render() {
     const { genres } = this.state;
-    const { with_genres } = this.props;
+    const { with_genres, disabled } = this.props;
 
     return (
       <Genres
@@ -65,6 +65,7 @@ export default class GenresContainer extends React.PureComponent {
         genres={genres}
         onChange={this.onChange}
         with_genres={with_genres}
+        disabled={disabled}
       />
     );
   }

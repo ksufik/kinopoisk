@@ -25,7 +25,8 @@ class PrimaryReleaseYear extends React.PureComponent {
   };
 
   render() {
-    const { primary_release_year, onChangeFilters, options } = this.props;
+    const { primary_release_year, onChangeFilters, options, disabled } =
+      this.props;
 
     return (
       <Select
@@ -34,6 +35,7 @@ class PrimaryReleaseYear extends React.PureComponent {
         value={primary_release_year}
         onChange={onChangeFilters}
         labelText="Год релиза:"
+        disabled={disabled}
       >
         {options.map((option, index) => (
           <option key={index} value={option}>

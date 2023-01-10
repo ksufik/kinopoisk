@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { PureComponent } from 'react';
 
-export default class ScrollToTop extends Component {
+export default class ScrollToTop extends PureComponent {
   scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -10,7 +9,7 @@ export default class ScrollToTop extends Component {
     return (
       <React.Fragment>
         <button
-          className={`btn-up material-icons btn btn-outline-info ${
+          className={`btn-up material-icons btn btn-warning ${
             this.props.isVisible ? '' : 'btn-up_hiding'
           }`}
           onClick={this.scrollToTop}

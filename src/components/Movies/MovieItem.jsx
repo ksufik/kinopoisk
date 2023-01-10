@@ -17,9 +17,7 @@ class MovieItem extends React.Component {
 
     return (
       <React.Fragment>
-        <div
-          className="card card-link btn-outline-info w-100"
-        >
+        <div className="card card-link btn-outline-info w-100">
           <Link to={`/movie/${item.id}`} target="_blank">
             <img
               className="card-img-top card-img__height"
@@ -37,7 +35,7 @@ class MovieItem extends React.Component {
               <div className="card-text">Рейтинг: {item.vote_average}</div>
               {isAuth && (
                 <span
-                  className="material-icons"
+                  className="text-warning material-icons"
                   style={{ cursor: 'pointer', zIndex: 2 }}
                   onClick={this.favoriteFunc}
                   title="Избранное"

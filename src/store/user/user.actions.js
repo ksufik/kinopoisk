@@ -1,5 +1,5 @@
-import { COOKIES_AUTH } from '../../../helpers/constants';
-import { cookies } from '../../../helpers/utils';
+import { COOKIES_AUTH } from '../../helpers/constants';
+import { cookies } from '../../helpers/utils';
 import CallApi from '../../api';
 import { getAllFavorites } from '../movies/movies.actions';
 
@@ -44,12 +44,12 @@ export const getAccount = (session_id) => async (dispatch) => {
       .then((user) => {
         dispatch(updateAuth({ user, session_id }));
         dispatch(updateSubmitting(false));
-				dispatch(getAllFavorites());
+        dispatch(getAllFavorites());
         // dispatch(animeSuccess(result.data));
       })
       .catch((error) => {
-        //	dispatch(animeFailure());
-        console.log('user error:', error);
+        dispatch(updateError(error));
+        console.error('user error:', error);
       })
       .finally(() => {
         console.log('user finally');
@@ -98,6 +98,7 @@ export const logIn =
       })
       .catch((error) => {
         dispatch(updateError(error.status_message));
+        console.error(error.status_message);
       })
       .finally(() => {
         console.log('logIn finally');
@@ -121,6 +122,7 @@ export const logOut = (session_id) => async (dispatch) => {
     .catch((error) => {
       console.log('logOut error');
       dispatch(updateError(error.status_message));
+      console.error(error.status_message);
     })
     .finally(() => {
       console.log('logOut finally');

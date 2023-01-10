@@ -1,7 +1,8 @@
 import queryString from 'query-string';
-import { LANGUAGE_RU } from '../helpers/constants';
+import { LANGUAGE_RU } from './helpers/constants';
 
 export const API_URL = 'https://api.themoviedb.org/3';
+//API -> https://developers.themoviedb.org/3
 
 export const API_KEY_3 = '3d236f637583a55776198933a4957be2';
 
@@ -23,9 +24,11 @@ export const fetchApi = (url, options = {}) => {
       })
       .catch((response) => {
         //превращаем ошибку объект и передаем дальше в конечный catch
-        response.json().then((error) => {
-          reject(error);
-        });
+        //  response.json().then((error) => {
+        //  reject(error);
+
+        reject(response);
+        // });
       });
   });
 };

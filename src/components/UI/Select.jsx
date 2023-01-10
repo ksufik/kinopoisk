@@ -9,6 +9,7 @@ const Select = ({
   labelText,
   children,
   className,
+  ...rest
 }) => (
   <div className="form-group w-100">
     <label htmlFor={id}>{labelText}</label>
@@ -18,6 +19,7 @@ const Select = ({
       name={name}
       value={value}
       onChange={onChange}
+      {...rest}
     >
       {/* options */}
       {children}

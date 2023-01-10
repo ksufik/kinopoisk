@@ -4,10 +4,12 @@ import {
   UPDATE_FILTERS,
   UPDATE_MOVIES,
   UPDATE_PAGE,
-  UPDATE_FAVORITES,
   UPDATE_ALL_FAVORITES,
   DELETE_FAVORITE,
   ADD_FAVORITE,
+  UPDATE_SEARCH,
+  UPDATE_FAVORITES,
+  ERROR,
 } from './movies.actions';
 
 const initialState = {
@@ -20,9 +22,11 @@ const initialState = {
     with_genres: [],
   },
   page: 1,
-  favorites: [],
   favorites_all: [],
+  favorites: [],
   fav_all_total_results: null,
+  search: '',
+  error: null,
 };
 
 export const moviesReducer = (state = initialState, { type, payload }) => {
@@ -69,6 +73,7 @@ export const moviesReducer = (state = initialState, { type, payload }) => {
           ...state.filters,
           sort_by: !payload.clicked ? 'popularity.desc' : 'created_at.desc',
         },
+        search: !payload.clicked,
       };
     case UPDATE_ALL_FAVORITES:
       return {
@@ -85,15 +90,24 @@ export const moviesReducer = (state = initialState, { type, payload }) => {
       const new_favorites_all = state.favorites_all.filter(
         (favorite) => favorite.id !== payload.movie.id
       );
-			const new_favorites = state.favorites.filter(
+      const new_favorites = state.favorites.filter(
         (favorite) => favorite.id !== payload.movie.id
       );
       return {
         ...state,
         favorites_all: new_favorites_all,
-				favorites: new_favorites,
+        favorites: new_favorites,
       };
-
+    case UPDATE_SEARCH:
+      return {
+        ...state,
+        search: payload.search,
+      };
+    case ERROR:
+      return {
+        ...state,
+        error: payload.error,
+      };
     default:
       return state;
   }

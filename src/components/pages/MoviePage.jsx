@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import CallApi from '../api';
+import CallApi from '../../api';
 import { withParams } from '../HOC/withParams';
 import MovieCredits from '../Movies/MovieCredits';
 import MovieVideos from '../Movies/MovieVideos';

@@ -8,7 +8,6 @@ import {
   DropdownToggle,
 } from 'reactstrap';
 
-//! регистрация/авторизация
 class User extends Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
@@ -26,18 +25,20 @@ class User extends Component {
     const { auth, authActions } = this.props;
     authActions.logOut(auth.session_id);
     authActions.favoritesIsClicked(false);
+    this.props.updateSearch('');
   };
 
   handleGetFavorites = () => {
     const { authActions } = this.props;
     authActions.favoritesIsClicked(true);
+    this.props.updateSearch('');
   };
 
   render() {
     const { auth } = this.props;
     const user = auth.user;
     return (
-      <div className="user-wrapper">
+      <div className="user-wrapper" style={{ cursor: 'pointer' }}>
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
           <DropdownToggle
             tag="div"
@@ -58,10 +59,18 @@ class User extends Component {
             />
           </DropdownToggle>
           <DropdownMenu end>
-            <DropdownItem onClick={this.handleGetFavorites}>
+            <DropdownItem
+              onClick={this.handleGetFavorites}
+              style={{ cursor: 'pointer' }}
+            >
               Любимые фильмы
             </DropdownItem>
-            <DropdownItem onClick={this.handleLogOut}>Выйти</DropdownItem>
+            <DropdownItem
+              onClick={this.handleLogOut}
+              style={{ cursor: 'pointer' }}
+            >
+              Выйти
+            </DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </div>

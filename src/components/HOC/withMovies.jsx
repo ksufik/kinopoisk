@@ -1,6 +1,6 @@
 import React from 'react';
 //import PropTypes from 'prop-types';
-import * as moviesActions from '../store/movies/movies.actions';
+import * as moviesActions from '../../store/movies/movies.actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -23,45 +23,8 @@ export const withMovies = (Component) =>
       constructor() {
         super();
         this.state = {
-          // favorites: [],
-          // favorites_all: [],
-          // favorites_total_results: null,
-          // favorites_total_pages: null,
         };
       }
-
-      //  componentDidUpdate(prevProps, prevState) {
-      //  const { filters, page } = this.props.moviesObj;
-
-      // if (
-      //   this.props.session_id &&
-      //   this.props.session_id !== prevProps.session_id
-      // ) {
-      //   this.getFavorites(this.props.filters, 1);
-      // }
-
-      // if (
-      //   this.state.favorites_total_results !==
-      //   prevState.favorites_total_results
-      // ) {
-      //   for (let i = 2; i < this.state.favorites_total_pages + 1; i++) {
-      //     this.getFavorites(this.props.filters, i);
-      //   }
-      // }
-
-      // если мы взаимодействуем с favorite movies (переход по ссылкам, фильтры)
-      // if (this.props.getFavoritesIsClicked) {
-      //   if (
-      //     this.props.getFavoritesIsClicked !==
-      //       prevProps.getFavoritesIsClicked ||
-      //     (this.props.session_id &&
-      //       this.props.session_id !== prevProps.session_id)
-      //   ) {
-      //     // если мы со всех фильмов переходим к favorite movies и ждем получения session_id
-      //     this.getFavorites(this.props.filters, 1);
-      //   }
-
-      // }
 
       render() {
         return <Component {...this.props} />;

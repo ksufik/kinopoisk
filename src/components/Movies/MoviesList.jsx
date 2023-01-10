@@ -7,26 +7,6 @@ class MoviesList extends React.PureComponent {
   //   movies: PropTypes.array.isRequired,
   // };
 
-  text = (getFavoritesIsClicked) => {
-    if (getFavoritesIsClicked) {
-      return <span>В списке нет фильмов</span>;
-    } else {
-      return (
-        <span>
-          По вашему запросу ничего не найдено
-          <br />
-          либо возникла ошибка:{' '}
-          <ins>база данных не работает в вашей стране.</ins>
-          <br />
-          Воспользуйтесь VPN.
-        </span>
-      );
-    }
-  };
-
-  //! не получается искать, пока в любимых находишься
-  componentDidUpdate() {}
-
   render() {
     const {
       getFavoritesIsClicked,
@@ -38,13 +18,13 @@ class MoviesList extends React.PureComponent {
     } = this.props;
 
     const array = getFavoritesIsClicked ? favorites : movies;
-
+		const text = getFavoritesIsClicked ? 'В списке нет фильмов' : 'По вашему запросу ничего не найдено';
     return (
       <div className="row">
         {error
           ? { error }
           : array.length === 0
-          ? this.text(getFavoritesIsClicked)
+          ? text
           : array.map((movie) => {
               return (
                 <div key={movie.id} className="col-6 mb-4 ">

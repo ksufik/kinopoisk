@@ -37,7 +37,7 @@ export const updateFavoritesIsClicked = (clicked) => ({
 });
 
 export const getAccount = (session_id) => async (dispatch) => {
-  //dispatch(animeLoading());
+  //dispatch(Loading());
 
   if (session_id) {
     CallApi.get('account', { params: { session_id: session_id } })
@@ -53,7 +53,7 @@ export const getAccount = (session_id) => async (dispatch) => {
       })
       .finally(() => {
         console.log('user finally');
-        //dispatch(animeLoading());
+        //dispatch(Loading());
       });
   }
 };
@@ -61,7 +61,7 @@ export const getAccount = (session_id) => async (dispatch) => {
 export const logIn =
   ({ username, password }) =>
   async (dispatch, getState) => {
-    //dispatch(animeLoading());
+    //dispatch(Loading());
 
     //заглушка от множественных кликов: пока идет запрос кнопка не работает
     dispatch(updateSubmitting(true));
@@ -103,12 +103,12 @@ export const logIn =
       .finally(() => {
         console.log('logIn finally');
         dispatch(updateSubmitting(true));
-        //dispatch(animeLoading());
+        //dispatch(Loading());
       });
   };
 
 export const logOut = (session_id) => async (dispatch) => {
-  //dispatch(animeLoading());
+  //dispatch(Loading());
 
   CallApi.delete('authentication/session', {
     body: {
@@ -126,7 +126,7 @@ export const logOut = (session_id) => async (dispatch) => {
     })
     .finally(() => {
       console.log('logOut finally');
-      //dispatch(animeLoading());
+      //dispatch(Loading());
     });
 };
 

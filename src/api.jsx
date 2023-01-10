@@ -24,11 +24,9 @@ export const fetchApi = (url, options = {}) => {
       })
       .catch((response) => {
         //превращаем ошибку объект и передаем дальше в конечный catch
-        //  response.json().then((error) => {
-        //  reject(error);
-
-        reject(response);
-        // });
+        response.json().then((error) => {
+          reject(error);
+        });
       });
   });
 };

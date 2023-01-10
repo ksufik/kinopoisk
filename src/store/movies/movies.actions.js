@@ -73,7 +73,7 @@ export const updateSearch = (search) => ({
 export const getMovies =
   ({ filters, page }) =>
   async (dispatch) => {
-    //dispatch(animeLoading());
+    //dispatch(Loading());
 
     // строка ниже идентична const sort_by = this.props.filters.sort_by
     const { sort_by, primary_release_year, with_genres } = filters;
@@ -95,7 +95,6 @@ export const getMovies =
         const total_results = data.total_results;
         const total_pages = data.total_pages;
         const movies = data.results;
-        //  dispatch(updatePage(page));
         dispatch(updateMovies({ movies, total_results, total_pages }));
       })
       .catch((error) => {
@@ -104,14 +103,14 @@ export const getMovies =
       })
       .finally(() => {
         console.log('movies finally');
-        //dispatch(animeLoading());
+        //dispatch(Loading());
       });
   };
 
 export const getFavorites =
   ({ filters, page }) =>
   async (dispatch, getState) => {
-    //dispatch(animeLoading());
+    //dispatch(Loading());
 
     const { sort_by } = filters;
     const { session_id } = getState().user;
@@ -138,14 +137,14 @@ export const getFavorites =
       })
       .finally(() => {
         console.log('favorites finally');
-        //dispatch(animeLoading());
+        //dispatch(Loading());
       });
   };
 
 export const getAllFavorites =
   (page = 1) =>
   async (dispatch, getState) => {
-    //dispatch(animeLoading());
+    //dispatch(Loading());
 
     const { session_id } = getState().user;
 
@@ -174,7 +173,7 @@ export const getAllFavorites =
       })
       .finally(() => {
         console.log('favorites all finally');
-        //dispatch(animeLoading());
+        //dispatch(Loading());
       });
   };
 
@@ -207,7 +206,7 @@ export const addDelFav =
         })
         .finally(() => {
           console.log('addDelFav finally');
-          //dispatch(animeLoading());
+          //dispatch(Loading());
         });
     }
   };
@@ -215,7 +214,7 @@ export const addDelFav =
 export const getSearched =
   ({ page }) =>
   (dispatch, getState) => {
-    //dispatch(animeLoading());
+    //dispatch(Loading());
     const { search } = getState().movies;
 
     const queryParams = {
@@ -244,6 +243,6 @@ export const getSearched =
       })
       .finally(() => {
         console.log('getSearched finally');
-        //dispatch(animeLoading());
+        //dispatch(Loading());
       });
   };

@@ -30,7 +30,7 @@ class MoviesPage extends React.Component {
   componentDidUpdate(prevProps) {
     const {
       moviesObj: { filters, page, search },
-      moviesActions: { updatePage, getSearched },
+      moviesActions: { updatePage },
       auth: { getFavoritesIsClicked },
     } = this.props;
 
